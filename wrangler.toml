@@ -1,0 +1,24 @@
+# Cloudflare Pages 配置文件
+# 部署命令：npx wrangler pages deploy dist --project-name=cc-blog
+
+name = "cc-blog"
+compatibility_date = "2026-05-30"
+
+# Pages 配置
+[pages]
+# 构建输出目录
+output_dir = "dist"
+# 构建命令
+build_command = "pnpm run build"
+
+# 环境变量
+[vars]
+NODE_VERSION = "22"
+
+# 安全头配置（与 public/_headers 配合使用）
+# Cloudflare 自动提供以下安全功能：
+# - 免费 DDoS 防护 (Layer 3/4/7)
+# - SSL/TLS 加密
+# - WAF (Web Application Firewall)
+# - Rate Limiting
+# - Bot Management

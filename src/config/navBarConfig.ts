@@ -65,22 +65,22 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 		// 子菜单
 		children: [
 			{
+				name: "Astro",
+				url: "https://astro.build",
+				external: true,
+				icon: "simple-icons:astro",
+			},
+			{
+				name: "Tailwind CSS",
+				url: "https://tailwindcss.com",
+				external: true,
+				icon: "simple-icons:tailwindcss",
+			},
+			{
 				name: "GitHub",
-				url: "https://github.com/CuteLeaf/Firefly",
+				url: "https://github.com",
 				external: true,
 				icon: "fa7-brands:github",
-			},
-			{
-				name: "Gitee",
-				url: "https://gitee.com/CuteLeaf/Firefly",
-				external: true,
-				icon: "fa7-brands:gitee",
-			},
-			{
-				name: "QQ交流群",
-				url: "https://qm.qq.com/q/ZGsFa8qX2G",
-				external: true,
-				icon: "fa7-brands:qq",
 			},
 		],
 	});
