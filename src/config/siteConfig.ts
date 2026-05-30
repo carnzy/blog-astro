@@ -7,7 +7,7 @@ const SITE_LANG = "zh_CN";
 
 export const siteConfig: SiteConfig = {
 	// 站点标题
-	title: "CC's Blog",
+	title: "Fzy's Blog",
 
 	// 站点副标题
 	subtitle: "代码 · 思考 · 生活",
@@ -17,11 +17,11 @@ export const siteConfig: SiteConfig = {
 
 	// 站点描述
 	description:
-		"CC 的技术博客，记录编程、架构设计和日常思考。分享 Web 开发、系统设计、AI 应用等方面的实践经验与技术洞察。",
+		"Fzy 的技术博客，记录编程、架构设计和日常思考。分享 Web 开发、系统设计、AI 应用等方面的实践经验与技术洞察。",
 
 	// 站点关键词
 	keywords: [
-		"CC",
+		"Fzy",
 		"博客",
 		"技术博客",
 		"Web开发",
@@ -78,10 +78,10 @@ export const siteConfig: SiteConfig = {
 		logo: {
 			type: "image",
 			value: "assets/images/firefly.png",
-			alt: "CC",
+			alt: "Fzy",
 		},
 		// 导航栏标题
-		title: "CC's Blog",
+		title: "Fzy's Blog",
 		// 全宽导航栏，导航栏是否占满屏幕宽度
 		widthFull: false,
 		// 导航菜单对齐方式，left：左对齐，center：居中

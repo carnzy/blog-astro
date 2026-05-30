@@ -9,7 +9,7 @@ export const profileConfig: ProfileConfig = {
 	avatar: "assets/images/avatar.avif",
 
 	// 名字
-	name: "CC",
+	name: "Fzy",
 
 	// 个人签名
 	bio: "Full-Stack Developer · Tech Enthusiast · Lifelong Learner",
@@ -25,7 +25,7 @@ export const profileConfig: ProfileConfig = {
 		{
 			name: "Email",
 			icon: "fa7-solid:envelope",
-			url: "mailto:cc@example.com",
+			url: "mailto:fzy@example.com",
 			showName: false,
 		},
 		{
