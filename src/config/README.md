@@ -10,7 +10,6 @@ src/config/
 ├── siteConfig.ts         # 站点基础配置
 ├── backgroundWallpaper.ts # 背景壁纸配置
 ├── profileConfig.ts      # 用户资料配置
-├── musicConfig.ts        # 音乐播放器配置
 ├── sakuraConfig.ts       # 樱花特效配置
 ├── commentConfig.ts      # 评论系统配置
 ├── announcementConfig.ts # 公告配置
@@ -47,7 +46,6 @@ import { profileConfig } from '../config/profileConfig';
 - `siteConfig.ts` - 站点基础配置（标题、描述、主题色等）
 - `backgroundWallpaper.ts` - 背景壁纸配置（壁纸模式、图片、横幅文字等）
 - `profileConfig.ts` - 用户资料配置（头像、姓名、社交链接等）
-- `musicConfig.ts` - 音乐播放器配置（支持本地音乐和 Meting API）
 - `sakuraConfig.ts` - 樱花特效配置（数量、速度、尺寸等）
 - `commentConfig.ts` - 评论系统配置（Twikoo 评论和文章访问量统计）
 - `announcementConfig.ts` - 公告配置（标题、内容、链接等）

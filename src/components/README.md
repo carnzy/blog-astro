@@ -85,11 +85,8 @@ Firefly 项目中所有可复用组件的集中管理。组件按照功能和职
 - `FancyboxManager.astro` - Fancybox 图片查看器管理
 - `FontManager.astro` - 字体加载和管理
 - `KatexManager.astro` - Katex 数学公式渲染管理
-- `MusicManager.astro` - 全局音乐播放管理器（单例，管理唯一 audio 元素和播放状态，通过 CustomEvent 同步所有 MusicPlayer 视图实例）
-
 **功能组件**
 - `Live2DWidget.astro` - Live2D 看板娘组件
-- `MusicPlayer.astro` - 音乐播放器 UI 视图控制器（纯 UI，委托 MusicManager 进行播放控制）
 - `SakuraEffect.astro` - 樱花飘落特效
 - `SpineModel.astro` - Spine 看板娘组件
 - `TypewriterText.astro` - 打字机动画效果
