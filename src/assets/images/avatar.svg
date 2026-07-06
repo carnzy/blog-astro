@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0e27"/>
+      <stop offset="100%" stop-color="#1a1040"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00d4ff"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+  </defs>
+  <!-- 背景 -->
+  <rect width="200" height="200" rx="30" fill="url(#bg)"/>
+  <!-- 终端边框 -->
+  <rect x="20" y="20" width="160" height="160" rx="12" fill="none" stroke="url(#glow)" stroke-width="1.5" opacity="0.3"/>
+  <!-- 终端窗口圆点 -->
+  <circle cx="38" cy="38" r="4" fill="#ff5f56"/>
+  <circle cx="54" cy="38" r="4" fill="#ffbd2e"/>
+  <circle cx="70" cy="38" r="4" fill="#27c93f"/>
+  <!-- 人形抽象图标（极客风格） -->
+  <!-- 头部 - 终端提示符风格 -->
+  <text x="40" y="65" fill="#00d4ff" font-family="monospace" font-size="9" opacity="0.6">$&gt;</text>
+  <!-- 简笔人物 -->
+  <circle cx="100" cy="90" r="18" fill="none" stroke="#00d4ff" stroke-width="2" opacity="0.8"/>
+  <line x1="100" y1="108" x2="100" y2="148" stroke="#00d4ff" stroke-width="2" opacity="0.8"/>
+  <line x1="100" y1="120" x2="75" y2="105" stroke="#00d4ff" stroke-width="2" opacity="0.7"/>
+  <line x1="100" y1="120" x2="125" y2="105" stroke="#00d4ff" stroke-width="2" opacity="0.7"/>
+  <line x1="100" y1="148" x2="80" y2="170" stroke="#00d4ff" stroke-width="2" opacity="0.7"/>
+  <line x1="100" y1="148" x2="120" y2="170" stroke="#00d4ff" stroke-width="2" opacity="0.7"/>
+  <!-- 代码装饰 -->
+  <text x="30" y="185" fill="#7c3aed" font-family="monospace" font-size="8" opacity="0.4">const life = 'code'</text>
+  <!-- 头部光环 -->
+  <text x="90" y="80" fill="#f0c040" font-family="monospace" font-size="7" opacity="0.6">&lt;/&gt;</text>
+</svg>

@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>博客发布管理 — fzy.it.com</title>
+<style>
+  /* ====== Reset & Base ====== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f1117;
+    --bg-card: #1a1d27;
+    --bg-input: #252836;
+    --bg-hover: #2d3140;
+    --border: #2e3140;
+    --text: #e4e6ee;
+    --text-dim: #8b8fa7;
+    --text-muted: #5c6078;
+    --accent: #6c8aff;
+    --accent-hover: #8ba3ff;
+    --accent-bg: rgba(108, 138, 255, 0.1);
+    --green: #4ade80;
+    --green-bg: rgba(74, 222, 128, 0.1);
+    --red: #f87171;
+    --red-bg: rgba(248, 113, 113, 0.1);
+    --yellow: #fbbf24;
+    --yellow-bg: rgba(251, 191, 36, 0.1);
+    --radius: 10px;
+    --radius-sm: 6px;
+    --shadow: 0 2px 8px rgba(0,0,0,0.3);
+    --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --mono: 'Cascadia Code', 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ====== Header ====== */
+  .header {
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .header-brand .icon {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, var(--accent), #a78bfa);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .header-link {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color .2s;
+  }
+  .header-link:hover { color: var(--text); }
+  .badge {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-weight: 500;
+  }
+  .badge-online {
+    background: var(--green-bg);
+    color: var(--green);
+  }
+
+  /* ====== Layout ====== */
+  .main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* ====== Sidebar ====== */
+  .sidebar {
+    width: 220px;
+    background: var(--bg-card);
+    border-right: 1px solid var(--border);
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+  .sidebar-tab {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    border: none;
+    background: transparent;
+    color: var(--text-dim);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all .15s;
+    text-align: left;
+    width: 100%;
+    font-family: var(--font);
+  }
+  .sidebar-tab:hover { background: var(--bg-hover); color: var(--text); }
+  .sidebar-tab.active { background: var(--accent-bg); color: var(--accent); font-weight: 600; }
+  .sidebar-tab .tab-icon { font-size: 18px; width: 22px; text-align: center; }
+
+  .sidebar-posts {
+    margin-top: 12px;
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+    overflow-y: auto;
+    flex: 1;
+  }
+  .sidebar-posts-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 0 14px;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+  }
+  .sidebar-post-item {
+    display: block;
+    padding: 7px 14px;
+    font-size: 12px;
+    color: var(--text-dim);
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .sidebar-post-item:hover { background: var(--bg-hover); color: var(--text); }
+  .sidebar-post-item .draft-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--yellow);
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  /* ====== Content ====== */
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .panel {
+    display: none;
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 32px;
+  }
+  .panel.active { display: flex; flex-direction: column; }
+
+  .panel-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .panel-desc {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 24px;
+  }
+
+  /* ====== Form ====== */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .form-grid.full { grid-template-columns: 1fr; }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .form-group.full {
+    grid-column: 1 / -1;
+  }
+  .form-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dim);
+  }
+  .form-label .optional {
+    font-weight: 400;
+    color: var(--text-muted);
+    font-size: 11px;
+  }
+  .form-input, .form-textarea, .form-select {
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    padding: 10px 14px;
+    font-size: 14px;
+    font-family: var(--font);
+    transition: border-color .2s;
+    outline: none;
+  }
+  .form-input:focus, .form-textarea:focus, .form-select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-bg);
+  }
+  .form-textarea {
+    resize: vertical;
+    min-height: 280px;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .form-select {
+    cursor: pointer;
+  }
+
+  /* ====== Buttons ====== */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: var(--font);
+    border: none;
+    cursor: pointer;
+    transition: all .15s;
+    white-space: nowrap;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+  }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+  }
+  .btn-outline:hover { background: var(--bg-hover); color: var(--text); }
+  .btn-danger {
+    background: var(--red-bg);
+    color: var(--red);
+  }
+  .btn-danger:hover { background: rgba(248,113,113,0.2); }
+
+  .btn-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  /* ====== File Drop Zone ====== */
+  .drop-zone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 48px;
+    text-align: center;
+    cursor: pointer;
+    transition: all .2s;
+    margin-bottom: 16px;
+  }
+  .drop-zone:hover, .drop-zone.drag-over {
+    border-color: var(--accent);
+    background: var(--accent-bg);
+  }
+  .drop-zone-icon { font-size: 48px; margin-bottom: 12px; }
+  .drop-zone-text { font-size: 15px; color: var(--text-dim); }
+  .drop-zone-hint { font-size: 12px; color: var(--text-muted); margin-top: 6px; }
+  .drop-zone .selected-file {
+    margin-top: 12px;
+    padding: 8px 16px;
+    background: var(--accent-bg);
+    color: var(--accent);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    display: inline-block;
+  }
+
+  /* ====== Log Panel ====== */
+  .log-panel {
+    border-top: 1px solid var(--border);
+    background: #0a0c12;
+    max-height: 280px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: max-height .3s;
+  }
+  .log-panel.expanded { max-height: 500px; }
+  .log-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 24px;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+  }
+  .log-header-title {
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .log-header-actions {
+    display: flex;
+    gap: 8px;
+  }
+  .log-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 24px;
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--text-dim);
+  }
+  .log-line { white-space: pre-wrap; word-break: break-all; }
+  .log-line.phase { color: var(--accent); font-weight: 600; margin-top: 4px; }
+  .log-line.error { color: var(--red); }
+  .log-line.complete { color: var(--green); font-weight: 600; font-size: 14px; }
+  .log-empty { color: var(--text-muted); font-style: italic; }
+
+  /* ====== Spinner ====== */
+  .spinner {
+    display: inline-block;
+    width: 16px; height: 16px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin .6s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ====== Toast ====== */
+  .toast-container {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .toast {
+    padding: 12px 20px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: var(--shadow);
+    animation: slideIn .25s ease;
+    max-width: 380px;
+  }
+  .toast-success { background: #166534; color: var(--green); border: 1px solid var(--green); }
+  .toast-error { background: #7f1d1d; color: var(--red); border: 1px solid var(--red); }
+  @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+  /* ====== Toggle Switch ====== */
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .toggle {
+    position: relative;
+    width: 44px; height: 24px;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .toggle.on { background: var(--accent); border-color: var(--accent); }
+  .toggle::after {
+    content: '';
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 18px; height: 18px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform .2s;
+  }
+  .toggle.on::after { transform: translateX(20px); }
+  .toggle-label { font-size: 13px; color: var(--text-dim); }
+
+  /* ====== Quick actions ====== */
+  .quick-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .tag-chip {
+    display: inline-block;
+    padding: 4px 10px;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 12px;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .tag-chip:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ====== Scrollbar ====== */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+  /* ====== Responsive ====== */
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .form-grid { grid-template-columns: 1fr; }
+    .panel { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ====== Header ====== -->
+<header class="header">
+  <a href="/" class="header-brand">
+    <div class="icon">📝</div>
+    博客发布管理
+  </a>
+  <div class="header-actions">
+    <span class="badge badge-online">● 已连接</span>
+    <a href="https://fzy.it.com" target="_blank" class="header-link">🌐 访问博客</a>
+  </div>
+</header>
+
+<!-- ====== Main Layout ====== -->
+<div class="main">
+
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <button class="sidebar-tab active" data-tab="new-post">
+      <span class="tab-icon">✏️</span> 新建文章
+    </button>
+    <button class="sidebar-tab" data-tab="upload-file">
+      <span class="tab-icon">📤</span> 发布文件
+    </button>
+
+    <div class="sidebar-posts">
+      <div class="sidebar-posts-title">📚 已有文章</div>
+      <div id="sidebar-post-list">
+        <span class="log-empty" style="padding:0 14px;">加载中...</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content Area -->
+  <div class="content">
+
+    <!-- ====== Panel 1: 新建文章 ====== -->
+    <div class="panel active" id="panel-new-post">
+      <h2 class="panel-title">✏️ 新建文章</h2>
+      <p class="panel-desc">填写文章信息，自动生成 frontmatter 并发布到博客</p>
+
+      <div class="form-grid">
+        <div class="form-group full">
+          <label class="form-label">文章标题 <span style="color:var(--red)">*</span></label>
+          <input class="form-input" id="np-title" placeholder="输入文章标题..." maxlength="200">
+        </div>
+        <div class="form-group">
+          <label class="form-label">分类 <span class="optional">(可选)</span></label>
+          <input class="form-input" id="np-category" placeholder="例如：技术、随笔、读书笔记">
+        </div>
+        <div class="form-group">
+          <label class="form-label">标签 <span class="optional">(逗号分隔)</span></label>
+          <input class="form-input" id="np-tags" placeholder="例如：Python, 爬虫, 教程">
+        </div>
+        <div class="form-group">
+          <label class="form-label">描述 <span class="optional">(可选)</span></label>
+          <input class="form-input" id="np-description" placeholder="文章摘要...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">封面图片URL <span class="optional">(可选)</span></label>
+          <input class="form-input" id="np-image" placeholder="https://...">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">文章内容 <span class="optional">(Markdown)</span></label>
+          <textarea class="form-textarea" id="np-content" placeholder="开始写作...支持 Markdown 语法"></textarea>
+        </div>
+      </div>
+
+      <div class="toggle-row" style="margin-bottom: 16px;">
+        <div class="toggle on" id="np-draft-toggle" onclick="toggleDraft()"></div>
+        <span class="toggle-label" id="np-draft-label">草稿模式（构建时不显示）</span>
+      </div>
+
+      <div class="quick-actions" style="margin-bottom: 16px;">
+        <span style="font-size:12px;color:var(--text-muted);line-height:2;">快速标签：</span>
+        <span class="tag-chip" onclick="quickTag('Python')">Python</span>
+        <span class="tag-chip" onclick="quickTag('爬虫')">爬虫</span>
+        <span class="tag-chip" onclick="quickTag('前端')">前端</span>
+        <span class="tag-chip" onclick="quickTag('后端')">后端</span>
+        <span class="tag-chip" onclick="quickTag('AI')">AI</span>
+        <span class="tag-chip" onclick="quickTag('教程')">教程</span>
+        <span class="tag-chip" onclick="quickTag('随笔')">随笔</span>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="buildOnly()">🔨 仅构建（本地预览）</button>
+        <button class="btn btn-primary" id="btn-publish-new" onclick="publishNewPost()">
+          🚀 发布到博客
+        </button>
+      </div>
+    </div>
+
+    <!-- ====== Panel 2: 发布文件 ====== -->
+    <div class="panel" id="panel-upload-file">
+      <h2 class="panel-title">📤 发布已有 .md 文件</h2>
+      <p class="panel-desc">选择一个本地 .md 文件，自动补全 frontmatter 并发布</p>
+
+      <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+        <div class="drop-zone-icon">📄</div>
+        <div class="drop-zone-text">点击选择 .md 文件，或拖拽到此处</div>
+        <div class="drop-zone-hint">支持 .md / .mdx 格式</div>
+        <div class="selected-file" id="selected-file-name" style="display:none;"></div>
+      </div>
+      <input type="file" id="file-input" accept=".md,.mdx" style="display:none" onchange="onFileSelected(event)">
+
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="checkFileOnly()">🔍 检查文件</button>
+        <button class="btn btn-primary" id="btn-publish-file" disabled onclick="publishFile()">
+          🚀 发布到博客
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== Log Panel ====== -->
+<div class="log-panel" id="log-panel">
+  <div class="log-header" onclick="toggleLogPanel()">
+    <div class="log-header-title">
+      📋 输出日志
+      <span class="badge badge-online" id="log-status" style="display:none;">运行中</span>
+    </div>
+    <div class="log-header-actions">
+      <button class="btn btn-outline" style="padding:4px 10px;font-size:11px;" onclick="event.stopPropagation();clearLog()">清空</button>
+      <span style="font-size:12px;color:var(--text-muted);">点击展开/收起</span>
+    </div>
+  </div>
+  <div class="log-body" id="log-body">
+    <div class="log-empty">准备就绪，等待操作...</div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toast-container"></div>
+
+<script>
+// ====== State ======
+let selectedFile = null;   // { name, content } — 浏览器端读取的文件
+let isPublishing = false;
+let isDraft = true;
+
+// ====== Tab Switching ======
+document.querySelectorAll('.sidebar-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.sidebar-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const target = tab.dataset.tab;
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    if (target === 'new-post') {
+      document.getElementById('panel-new-post').classList.add('active');
+    } else if (target === 'upload-file') {
+      document.getElementById('panel-upload-file').classList.add('active');
+    }
+  });
+});
+
+// ====== Draft Toggle ======
+function toggleDraft() {
+  isDraft = !isDraft;
+  const toggle = document.getElementById('np-draft-toggle');
+  const label = document.getElementById('np-draft-label');
+  if (isDraft) {
+    toggle.classList.add('on');
+    label.textContent = '草稿模式（构建时不显示）';
+  } else {
+    toggle.classList.remove('on');
+    label.textContent = '公开发布（立即可见）';
+  }
+}
+
+// ====== Quick Tags ======
+function quickTag(tag) {
+  const input = document.getElementById('np-tags');
+  const current = input.value.split(',').map(t => t.trim()).filter(Boolean);
+  const idx = current.indexOf(tag);
+  if (idx >= 0) {
+    current.splice(idx, 1);
+  } else {
+    current.push(tag);
+  }
+  input.value = current.join(', ');
+}
+
+// ====== Log ======
+function clearLog() {
+  document.getElementById('log-body').innerHTML = '<div class="log-empty">日志已清空</div>';
+}
+
+function addLog(message, className = '') {
+  const body = document.getElementById('log-body');
+  // Remove empty placeholder
+  const empty = body.querySelector('.log-empty');
+  if (empty) empty.remove();
+
+  const div = document.createElement('div');
+  div.className = 'log-line ' + className;
+  div.textContent = message;
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+}
+
+function toggleLogPanel() {
+  document.getElementById('log-panel').classList.toggle('expanded');
+}
+
+function setPublishing(state) {
+  isPublishing = state;
+  const btns = document.querySelectorAll('#btn-publish-new, #btn-publish-file');
+  btns.forEach(b => {
+    b.disabled = state;
+    b.innerHTML = state
+      ? '<span class="spinner"></span> 发布中...'
+      : '🚀 发布到博客';
+  });
+  document.getElementById('log-status').style.display = state ? 'inline' : 'none';
+}
+
+// ====== Toast ======
+function showToast(message, type = 'success') {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = 'toast toast-' + type;
+  toast.textContent = message;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transition = 'opacity .3s';
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
+
+// ====== Stream Publish ======
+async function streamPublish(body) {
+  setPublishing(true);
+  clearLog();
+  addLog('开始发布流程...', 'phase');
+  document.getElementById('log-panel').classList.add('expanded');
+
+  try {
+    const response = await fetch('/api/publish', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop(); // Keep incomplete line in buffer
+
+      for (const line of lines) {
+        if (!line.trim()) continue;
+        try {
+          const data = JSON.parse(line);
+          handleStreamEvent(data);
+        } catch {
+          addLog(line, '');
+        }
+      }
+    }
+
+    // Process remaining buffer
+    if (buffer.trim()) {
+      try {
+        const data = JSON.parse(buffer);
+        handleStreamEvent(data);
+      } catch {
+        addLog(buffer, '');
+      }
+    }
+  } catch (err) {
+    addLog('连接错误: ' + err.message, 'error');
+    showToast('发布失败: ' + err.message, 'error');
+  } finally {
+    setPublishing(false);
+  }
+}
+
+function handleStreamEvent(data) {
+  switch (data.type) {
+    case 'phase':
+      addLog(data.message, 'phase');
+      break;
+    case 'log':
+      addLog(data.message, '');
+      break;
+    case 'error':
+      addLog('❌ ' + data.message, 'error');
+      showToast(data.message, 'error');
+      break;
+    case 'complete':
+      addLog(data.message, 'complete');
+      showToast('发布成功！访问 fzy.it.com 查看', 'success');
+      loadPostList(); // Refresh sidebar
+      break;
+  }
+}
+
+// ====== New Post ======
+function getNewPostData() {
+  const title = document.getElementById('np-title').value.trim();
+  if (!title) {
+    showToast('请输入文章标题', 'error');
+    return null;
+  }
+  return {
+    mode: 'create',
+    title,
+    description: document.getElementById('np-description').value.trim(),
+    tags: document.getElementById('np-tags').value.trim(),
+    category: document.getElementById('np-category').value.trim(),
+    image: document.getElementById('np-image').value.trim(),
+    content: document.getElementById('np-content').value,
+    draft: isDraft,
+  };
+}
+
+function publishNewPost() {
+  const data = getNewPostData();
+  if (!data) return;
+  streamPublish(data);
+}
+
+function buildOnly() {
+  const data = getNewPostData();
+  if (!data) return;
+  data.action = 'build-only';
+  streamPublish(data);
+}
+
+// ====== File Upload ======
+const dropZone = document.getElementById('drop-zone');
+
+dropZone.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  dropZone.classList.add('drag-over');
+});
+
+dropZone.addEventListener('dragleave', () => {
+  dropZone.classList.remove('drag-over');
+});
+
+dropZone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file) handleFile(file);
+});
+
+function onFileSelected(event) {
+  const file = event.target.files[0];
+  if (file) handleFile(file);
+}
+
+function handleFile(file) {
+  if (!file.name.match(/\.(md|mdx)$/i)) {
+    showToast('仅支持 .md / .mdx 文件', 'error');
+    return;
+  }
+
+  // 浏览器安全限制：无法获取 file.path，必须在浏览器端读取内容
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    selectedFile = {
+      name: file.name,
+      content: e.target.result,
+      size: file.size,
+    };
+    document.getElementById('selected-file-name').textContent =
+      `📄 ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+    document.getElementById('selected-file-name').style.display = 'inline-block';
+    document.getElementById('btn-publish-file').disabled = false;
+    showToast(`已加载: ${file.name}`, 'success');
+  };
+  reader.onerror = () => {
+    showToast('文件读取失败', 'error');
+  };
+  reader.readAsText(file);
+}
+
+function checkFileOnly() {
+  if (!selectedFile) {
+    showToast('请先选择文件', 'error');
+    return;
+  }
+  clearLog();
+  document.getElementById('log-panel').classList.add('expanded');
+  addLog(`✅ 文件已就绪: ${selectedFile.name}`, 'complete');
+  addLog(`   大小: ${(selectedFile.size / 1024).toFixed(1)} KB`);
+  addLog(`   内容预览: ${selectedFile.content.slice(0, 200)}...`);
+}
+
+function publishFile() {
+  if (!selectedFile) {
+    showToast('请先选择文件', 'error');
+    return;
+  }
+  // 把文件内容和文件名发送给服务端，由服务端写入磁盘
+  streamPublish({
+    uploadedFileName: selectedFile.name,
+    uploadedContent: selectedFile.content,
+  });
+}
+
+// ====== Load Post List ======
+async function loadPostList() {
+  try {
+    const resp = await fetch('/api/posts');
+    const posts = await resp.json();
+    const container = document.getElementById('sidebar-post-list');
+    if (posts.length === 0) {
+      container.innerHTML = '<span class="log-empty" style="padding:0 14px;">暂无文章</span>';
+      return;
+    }
+    container.innerHTML = posts.map(p => `
+      <div class="sidebar-post-item" title="${p.title}${p.draft ? ' [草稿]' : ''}">
+        ${p.draft ? '<span class="draft-dot"></span>' : ''}${p.title}
+      </div>
+    `).join('');
+  } catch {
+    // 静默失败
+  }
+}
+
+// ====== Keyboard Shortcuts ======
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    e.preventDefault();
+    publishNewPost();
+  }
+});
+
+// ====== Init ======
+loadPostList();
+console.log('📝 博客发布管理面板已就绪');
+console.log('   Ctrl+Enter 快速发布');
+</script>
+
+</body>
+</html>
