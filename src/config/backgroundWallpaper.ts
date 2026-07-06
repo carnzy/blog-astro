@@ -19,42 +19,42 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 	 *
 	 * 如果只使用一张图片或者使用随机图API，推荐直接使用字符串格式：
 	 * desktop: "https://t.alcy.cc/pc",   // 随机图API
-	 * desktop: "assets/images/DesktopWallpaper/d1.avif", // 单张图片
+	 * desktop: "assets/images/DesktopWallpaper/d1.webp", // 单张图片
 	 *
 	 * mobile: "https://t.alcy.cc/mp", // 随机图API
-	 * mobile: "assets/images/MobileWallpaper/m1.avif", // 单张图片
+	 * mobile: "assets/images/MobileWallpaper/m1.webp", // 单张图片
 	 *
 	 * 支持配置多张图片（数组），每次刷新页面随机显示一张：
 	 * desktop: [
-	 * "assets/images/DesktopWallpaper/d1.avif",
-	 * "assets/images/DesktopWallpaper/d2.avif",
+	 * "assets/images/DesktopWallpaper/d1.webp",
+	 * "assets/images/DesktopWallpaper/d2.webp",
 	 * ],
 	 *
 	 * mobile:[
-	 *   "assets/images/MobileWallpaper/m1.avif",
-	 *   "assets/images/MobileWallpaper/m2.avif",
+	 *   "assets/images/MobileWallpaper/m1.webp",
+	 *   "assets/images/MobileWallpaper/m2.webp",
 	 * ],
 	 */
 	src: {
 		// 桌面背景图片（支持单张或多张随机）
-		// desktop: "assets/images/DesktopWallpaper/d1.avif",
+		// desktop: "assets/images/DesktopWallpaper/d1.webp",
 		desktop: [
-			"assets/images/DesktopWallpaper/d1.avif",
-			"assets/images/DesktopWallpaper/d2.avif",
-			"assets/images/DesktopWallpaper/d3.avif",
-			"assets/images/DesktopWallpaper/d4.avif",
-			"assets/images/DesktopWallpaper/d5.avif",
-			"assets/images/DesktopWallpaper/d6.avif",
+			"assets/images/DesktopWallpaper/d1.webp",
+			"assets/images/DesktopWallpaper/d2.webp",
+			"assets/images/DesktopWallpaper/d3.webp",
+			"assets/images/DesktopWallpaper/d4.webp",
+			"assets/images/DesktopWallpaper/d5.webp",
+			"assets/images/DesktopWallpaper/d6.webp",
 		],
 		// 移动背景图片（支持单张或多张随机）
-		// mobile: "assets/images/MobileWallpaper/m1.avif",
+		// mobile: "assets/images/MobileWallpaper/m1.webp",
 		mobile: [
-			"assets/images/MobileWallpaper/m1.avif",
-			"assets/images/MobileWallpaper/m2.avif",
-			"assets/images/MobileWallpaper/m3.avif",
-			"assets/images/MobileWallpaper/m4.avif",
-			"assets/images/MobileWallpaper/m5.avif",
-			"assets/images/MobileWallpaper/m6.avif",
+			"assets/images/MobileWallpaper/m1.webp",
+			"assets/images/MobileWallpaper/m2.webp",
+			"assets/images/MobileWallpaper/m3.webp",
+			"assets/images/MobileWallpaper/m4.webp",
+			"assets/images/MobileWallpaper/m5.webp",
+			"assets/images/MobileWallpaper/m6.webp",
 		],
 	},
 	// Banner模式特有配置

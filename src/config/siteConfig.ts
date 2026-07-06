@@ -13,7 +13,7 @@ export const siteConfig: SiteConfig = {
 	subtitle: "代码 · 思考 · 生活",
 
 	// 站点 URL
-	site_url: "https://blog-astro.pages.dev",
+	site_url: "https://fzy.it.com",
 
 	// 站点描述
 	description:
