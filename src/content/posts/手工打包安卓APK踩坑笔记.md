@@ -1,9 +1,9 @@
 ---
 title: 手工打包安卓APK踩坑笔记
 published: 2026-08-11
-description: 
-tags: []
-category: 
+description: "本机只有 Java 8、没有 Android Studio/Gradle，手工用 aapt2+d8+apksigner 打出可安装安卓 APK 的全流程与 9 个坑。"
+tags: ["安卓", "APK", "打包", "从0到1"]
+category: "技术"
 draft: false
 lang: zh-CN
 ---
