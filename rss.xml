@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Fzy&apos;s Blog</title><description>代码 · 思考 · 生活</description><link>https://fzy.it.com/</link><templateTheme>Firefly</templateTheme><templateThemeVersion>6.8.7</templateThemeVersion><templateThemeUrl>https://github.com/CuteLeaf/Firefly</templateThemeUrl><lastBuildDate>2026年8月11日 22:40:46</lastBuildDate><item><title>Hello World — 我的第一篇博客</title><link>https://fzy.it.com/posts/hello-world/</link><guid isPermaLink="true">https://fzy.it.com/posts/hello-world/</guid><description>欢迎来到我的技术博客！这里将记录我在编程、架构和日常开发中的思考与实践。</description><pubDate>Sat, 30 May 2026 00:00:00 GMT</pubDate><content:encoded>&lt;section&gt;&lt;h2&gt;👋 欢迎&lt;a href=&quot;#-欢迎&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;你好！欢迎来到我的博客。这里是我记录技术成长、分享开发经验的地方。&lt;/p&gt;&lt;/section&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Fzy&apos;s Blog</title><description>代码 · 思考 · 生活</description><link>https://fzy.it.com/</link><templateTheme>Firefly</templateTheme><templateThemeVersion>6.8.7</templateThemeVersion><templateThemeUrl>https://github.com/CuteLeaf/Firefly</templateThemeUrl><lastBuildDate>2026年8月22日 15:37:42</lastBuildDate><item><title>Hello World — 我的第一篇博客</title><link>https://fzy.it.com/posts/hello-world/</link><guid isPermaLink="true">https://fzy.it.com/posts/hello-world/</guid><description>欢迎来到我的技术博客！这里将记录我在编程、架构和日常开发中的思考与实践。</description><pubDate>Sat, 30 May 2026 00:00:00 GMT</pubDate><content:encoded>&lt;section&gt;&lt;h2&gt;👋 欢迎&lt;a href=&quot;#-欢迎&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;你好！欢迎来到我的博客。这里是我记录技术成长、分享开发经验的地方。&lt;/p&gt;&lt;/section&gt;
 &lt;section&gt;&lt;h2&gt;📝 关于这个博客&lt;a href=&quot;#-关于这个博客&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;这个博客基于以下技术栈构建：&lt;/p&gt;&lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;https://astro.build&quot; target=&quot;_blank&quot;&gt;Astro&lt;/a&gt;&lt;/strong&gt; — 现代化的静态站点生成器，提供极致的加载速度&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;https://tailwindcss.com&quot; target=&quot;_blank&quot;&gt;Tailwind CSS&lt;/a&gt;&lt;/strong&gt; — 实用优先的 CSS 框架&lt;/li&gt;
@@ -11,7 +11,106 @@
 &lt;li&gt;&lt;strong&gt;开发工具&lt;/strong&gt;：Git、Docker、CI/CD 实践&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;读书笔记&lt;/strong&gt;：技术书籍的阅读与思考&lt;/li&gt;
 &lt;/ul&gt;&lt;/section&gt;
-&lt;section&gt;&lt;h2&gt;📬 联系我&lt;a href=&quot;#-联系我&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;如果你有任何问题或建议，欢迎通过 GitHub 或邮件联系我。&lt;/p&gt;&lt;p&gt;感谢你的访问！&lt;/p&gt;&lt;/section&gt;</content:encoded></item><item><title>不装 Android Studio，手工打出可安装的安卓 APK（从0到1）</title><link>https://fzy.it.com/posts/android-blog-publisher-apk/</link><guid isPermaLink="true">https://fzy.it.com/posts/android-blog-publisher-apk/</guid><description>一台只有 Java 8 的 Windows，没有 Android Studio、没有 Gradle，也能做出可直接安装的安卓 APK。本文拆解手工打包链路（aapt2 + d8 + apksigner），并复用它做了一个「本地 Markdown 一键发博客」的安卓工具。</description><pubDate>Tue, 11 Aug 2026 00:00:00 GMT</pubDate><content:encoded>&lt;section&gt;&lt;h2&gt;背景：想在手机上直接发博客&lt;a href=&quot;#背景想在手机上直接发博客&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;我的博客（&lt;a href=&quot;https://www.fzy.it.com&quot; target=&quot;_blank&quot;&gt;fzy.it.com&lt;/a&gt;）是用 Astro 生成的静态站，文章放在仓库 &lt;code&gt;src/content/posts/&lt;/code&gt;，推到 &lt;code&gt;main&lt;/code&gt; 分支后由 Cloudflare Pages 自动构建部署。&lt;/p&gt;&lt;p&gt;平时在电脑上发布很顺：写 Markdown、提交、推送即可。但有时候人在外面，只有手机，想随手记一篇并发出来。于是我想做一个&lt;strong&gt;安卓 App&lt;/strong&gt;：在手机上选一个本地 &lt;code&gt;.md&lt;/code&gt; 文件，填几个字段，一键推到 GitHub 触发部署。&lt;/p&gt;&lt;p&gt;需求很小，但为了它去装一整套 Android Studio + Gradle + SDK，代价太大。我这台 Windows 上只有 &lt;strong&gt;Java 8&lt;/strong&gt;，没有 Android SDK、没有 Gradle。能不能”裸手”打出一个 APK？&lt;/p&gt;&lt;p&gt;能。而且过程本身，就是一个很好的「从 0 到 1」技术原理例子。&lt;/p&gt;&lt;/section&gt;
+&lt;section&gt;&lt;h2&gt;📬 联系我&lt;a href=&quot;#-联系我&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;如果你有任何问题或建议，欢迎通过 GitHub 或邮件联系我。&lt;/p&gt;&lt;p&gt;感谢你的访问！&lt;/p&gt;&lt;/section&gt;</content:encoded></item><item><title>Windows 启动项管理指南</title><link>https://fzy.it.com/posts/%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%AE%A1%E7%90%86%E6%8C%87%E5%8D%97/</link><guid isPermaLink="true">https://fzy.it.com/posts/%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%AE%A1%E7%90%86%E6%8C%87%E5%8D%97/</guid><description>手动把任何程序加入或取消开机自启动的常用方法,日常记住前两个就够了</description><pubDate>Sat, 22 Aug 2026 00:00:00 GMT</pubDate><content:encoded>&lt;section&gt;&lt;h1&gt;&lt;/h1&gt;&lt;blockquote&gt;&lt;p&gt;手动把任何程序加入 / 取消开机自启动的常用方法。
+日常记住前两个就够了：&lt;strong&gt;加自启用启动文件夹，关自启用任务管理器。&lt;/strong&gt;&lt;/p&gt;&lt;/blockquote&gt;&lt;hr /&gt;&lt;section&gt;&lt;h2&gt;方法一：启动文件夹（最直观，推荐）&lt;a href=&quot;#方法一启动文件夹最直观推荐&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;适合：任何程序、脚本（.exe / .bat / .pyw / 快捷方式）&lt;/p&gt;&lt;section&gt;&lt;h3&gt;添加自启&lt;a href=&quot;#添加自启&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;按 &lt;code&gt;Win + R&lt;/code&gt;，输入 &lt;code&gt;shell:startup&lt;/code&gt;，回车
+（会打开：&lt;code&gt;C:\Users\&amp;lt;用户名&amp;gt;\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup&lt;/code&gt;）&lt;/li&gt;
+&lt;li&gt;把程序的&lt;strong&gt;快捷方式&lt;/strong&gt;（右键程序 → 发送到 → 桌面快捷方式，再剪切过来）或程序文件本身放进去&lt;/li&gt;
+&lt;li&gt;重启或注销重新登录即可生效&lt;/li&gt;
+&lt;/ol&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;取消自启&lt;a href=&quot;#取消自启&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;删除启动文件夹里对应的文件即可&lt;/li&gt;
+&lt;li&gt;删的只是”启动入口”，程序本身不受任何影响&lt;/li&gt;
+&lt;/ul&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;全机生效（所有用户）&lt;a href=&quot;#全机生效所有用户&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Win + R&lt;/code&gt; 输入 &lt;code&gt;shell:common startup&lt;/code&gt;，操作相同，但需要管理员权限&lt;/li&gt;
+&lt;/ul&gt;&lt;hr /&gt;&lt;/section&gt;&lt;/section&gt;&lt;section&gt;&lt;h2&gt;方法二：任务管理器（快速开关现成的启动项）&lt;a href=&quot;#方法二任务管理器快速开关现成的启动项&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;适合：批量查看和临时禁用，不删文件、随时恢复&lt;/p&gt;&lt;ol&gt;
+&lt;li&gt;按 &lt;code&gt;Ctrl + Shift + Esc&lt;/code&gt; 打开任务管理器&lt;/li&gt;
+&lt;li&gt;切换到 &lt;strong&gt;「启动应用」&lt;/strong&gt; 标签页（Win10 也叫「启动」）&lt;/li&gt;
+&lt;li&gt;选中任意程序，右键 → &lt;strong&gt;「启用」/「禁用」&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;blockquote&gt;&lt;p&gt;Win11 也可以走：&lt;strong&gt;设置 → 应用 → 启动&lt;/strong&gt;，用开关直接控制。
+这里能看到来自启动文件夹、注册表等处的所有自启项及其对开机速度的影响评级。&lt;/p&gt;&lt;/blockquote&gt;&lt;hr /&gt;&lt;/section&gt;&lt;section&gt;&lt;h2&gt;方法三：注册表 Run 键（程序多、想精确控制时）&lt;a href=&quot;#方法三注册表-run-键程序多想精确控制时&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;适合：进阶用户，适合批量管理大量自启项&lt;/p&gt;&lt;section&gt;&lt;h3&gt;操作步骤&lt;a href=&quot;#操作步骤&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;Win + R&lt;/code&gt; 输入 &lt;code&gt;regedit&lt;/code&gt; 回车&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;定位到（当前用户级）：&lt;/p&gt;
+&lt;div&gt;&lt;figure&gt;&lt;figcaption&gt;&lt;/figcaption&gt;&lt;pre&gt;&lt;code&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;1&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;span&gt;HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/figure&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;添加&lt;/strong&gt;：右键空白处 → 新建 → 字符串值&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;数值名称：随便起（一般用程序名）&lt;/li&gt;
+&lt;li&gt;数值数据：程序的完整路径，例如 &lt;code&gt;&quot;C:\Program Files\App\app.exe&quot;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;取消&lt;/strong&gt;：右键删除对应的值即可&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;&lt;/section&gt;&lt;section&gt;&lt;h3&gt;两个位置的区别&lt;a href=&quot;#两个位置的区别&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h3&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;位置&lt;/th&gt;&lt;th&gt;生效范围&lt;/th&gt;&lt;th&gt;权限要求&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;code&gt;HKEY_CURRENT_USER\...\Run&lt;/code&gt;&lt;/td&gt;&lt;td&gt;仅当前用户&lt;/td&gt;&lt;td&gt;普通&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;code&gt;HKEY_LOCAL_MACHINE\...\Run&lt;/code&gt;&lt;/td&gt;&lt;td&gt;所有用户&lt;/td&gt;&lt;td&gt;管理员&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;blockquote&gt;&lt;p&gt;某些杀毒软件、驱动类程序会写在 &lt;code&gt;HKEY_LOCAL_MACHINE&lt;/code&gt; 下。
+修改注册表前建议先备份：文件 → 导出。&lt;/p&gt;&lt;/blockquote&gt;&lt;hr /&gt;&lt;/section&gt;&lt;/section&gt;&lt;section&gt;&lt;h2&gt;方法四：软件自身的设置（优先用这个）&lt;a href=&quot;#方法四软件自身的设置优先用这个&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;很多常用软件都内置了开关，效果等价且最干净：&lt;/p&gt;&lt;ul&gt;
+&lt;li&gt;微信 / QQ：设置 → 通用 → 开机自动启动&lt;/li&gt;
+&lt;li&gt;Steam：设置 → 界面 → 计算机启动时运行&lt;/li&gt;
+&lt;li&gt;Snipaste：首选项 → 通用 → 开机自启&lt;/li&gt;
+&lt;li&gt;浏览器（Edge/Chrome）：设置 → 系统 → 打开…&lt;/li&gt;
+&lt;/ul&gt;&lt;p&gt;如果目标软件有这个选项，&lt;strong&gt;优先在软件里关，而不是去启动文件夹/注册表删&lt;/strong&gt;，避免软件下次更新时又把自己加回去。&lt;/p&gt;&lt;hr /&gt;&lt;/section&gt;&lt;section&gt;&lt;h2&gt;方法五：任务计划程序（进阶，带条件触发）&lt;a href=&quot;#方法五任务计划程序进阶带条件触发&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;适合：需要”延迟启动&quot;&quot;仅接通电源时启动&quot;&quot;错过时机补跑”等条件&lt;/p&gt;&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;Win + R&lt;/code&gt; 输入 &lt;code&gt;taskschd.msc&lt;/code&gt; 回车&lt;/li&gt;
+&lt;li&gt;右侧「创建基本任务」→ 按向导走&lt;/li&gt;
+&lt;li&gt;触发器选 &lt;strong&gt;「登录时」&lt;/strong&gt;（可选延迟固定时间）&lt;/li&gt;
+&lt;li&gt;操作选「启动程序」，浏览到目标 exe&lt;/li&gt;
+&lt;li&gt;取消自启：在任务计划程序库中找到该任务，禁用或删除&lt;/li&gt;
+&lt;/ol&gt;&lt;blockquote&gt;&lt;p&gt;常见用法：开机 30 秒后再启动某软件，避开开机高峰抢资源。&lt;/p&gt;&lt;/blockquote&gt;&lt;hr /&gt;&lt;/section&gt;&lt;section&gt;&lt;h2&gt;常见问题&lt;a href=&quot;#常见问题&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;Q：改完要重启才生效吗？&lt;/strong&gt;
+A：注销重新登录即可验证，不必重启整机。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Q：任务管理器里”禁用”和删除文件有什么区别？&lt;/strong&gt;
+A：禁用只是开关（可随时恢复），删除文件是彻底移除。启动文件夹里的文件被禁用后仍在磁盘上。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Q：怎么排查”开机变慢是哪个程序拖的”？&lt;/strong&gt;
+A：任务管理器 → 启动应用，看「启动影响」列（高/中/低）；也可以在「详细信息」里按 CPU/磁盘排序观察开机后几分钟的情况。&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Q：启动文件夹里的文件双击能跑，但开机不自启？&lt;/strong&gt;
+A：检查任务管理器 → 启动应用里该条目是否被”禁用”了；被禁用的启动文件夹条目不会运行。&lt;/p&gt;&lt;hr /&gt;&lt;/section&gt;&lt;section&gt;&lt;h2&gt;快速对照表&lt;a href=&quot;#快速对照表&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;需求&lt;/th&gt;&lt;th&gt;操作&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;给某程序加自启&lt;/td&gt;&lt;td&gt;&lt;code&gt;shell:startup&lt;/code&gt; 放快捷方式&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;关掉某个自启&lt;/td&gt;&lt;td&gt;任务管理器 → 启动应用 → 禁用&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;彻底删除自启&lt;/td&gt;&lt;td&gt;启动文件夹删文件 / 注册表删值&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;延迟/条件自启&lt;/td&gt;&lt;td&gt;任务计划程序 &lt;code&gt;taskschd.msc&lt;/code&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;本工具（目标横幅）&lt;/td&gt;&lt;td&gt;启动文件夹中的 &lt;code&gt;目标置顶横幅.pyw&lt;/code&gt;，删掉即取消自启&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/section&gt;&lt;/section&gt;</content:encoded></item><item><title>不装 Android Studio，手工打出可安装的安卓 APK（从0到1）</title><link>https://fzy.it.com/posts/android-blog-publisher-apk/</link><guid isPermaLink="true">https://fzy.it.com/posts/android-blog-publisher-apk/</guid><description>一台只有 Java 8 的 Windows，没有 Android Studio、没有 Gradle，也能做出可直接安装的安卓 APK。本文拆解手工打包链路（aapt2 + d8 + apksigner），并复用它做了一个「本地 Markdown 一键发博客」的安卓工具。</description><pubDate>Tue, 11 Aug 2026 00:00:00 GMT</pubDate><content:encoded>&lt;section&gt;&lt;h2&gt;背景：想在手机上直接发博客&lt;a href=&quot;#背景想在手机上直接发博客&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;我的博客（&lt;a href=&quot;https://www.fzy.it.com&quot; target=&quot;_blank&quot;&gt;fzy.it.com&lt;/a&gt;）是用 Astro 生成的静态站，文章放在仓库 &lt;code&gt;src/content/posts/&lt;/code&gt;，推到 &lt;code&gt;main&lt;/code&gt; 分支后由 Cloudflare Pages 自动构建部署。&lt;/p&gt;&lt;p&gt;平时在电脑上发布很顺：写 Markdown、提交、推送即可。但有时候人在外面，只有手机，想随手记一篇并发出来。于是我想做一个&lt;strong&gt;安卓 App&lt;/strong&gt;：在手机上选一个本地 &lt;code&gt;.md&lt;/code&gt; 文件，填几个字段，一键推到 GitHub 触发部署。&lt;/p&gt;&lt;p&gt;需求很小，但为了它去装一整套 Android Studio + Gradle + SDK，代价太大。我这台 Windows 上只有 &lt;strong&gt;Java 8&lt;/strong&gt;，没有 Android SDK、没有 Gradle。能不能”裸手”打出一个 APK？&lt;/p&gt;&lt;p&gt;能。而且过程本身，就是一个很好的「从 0 到 1」技术原理例子。&lt;/p&gt;&lt;/section&gt;
 &lt;section&gt;&lt;h2&gt;整体方案：一个 WebView 壳 + 一个内置网页&lt;a href=&quot;#整体方案一个-webview-壳--一个内置网页&quot;&gt;&lt;span&gt;#&lt;/span&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;安卓原生的完整 UI 开发（Jetpack、Material、各种 Widget）学习成本不低，而我的核心功能其实是一个网页：文件选择、表单、调用 GitHub API。所以架构非常薄：&lt;/p&gt;&lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;原生层&lt;/strong&gt;：一个 &lt;code&gt;MainActivity&lt;/code&gt;，里面只有一个 &lt;code&gt;WebView&lt;/code&gt;，加载内置的 &lt;code&gt;assets/index.html&lt;/code&gt;。&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;网页层&lt;/strong&gt;：&lt;code&gt;index.html&lt;/code&gt; 是一个纯前端的单页应用，负责设置 GitHub Token、选 &lt;code&gt;.md&lt;/code&gt; 文件、生成 frontmatter、调用 GitHub 接口发布。&lt;/li&gt;
